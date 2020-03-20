@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         // 获取 WebView
         WebView web_view = findViewById(R.id.web_view);
         // 加载默认的资源
-        web_view.loadUrl("http://android-web-view.html.ztj.xyz/");
+        web_view.loadUrl("http://web-view.html.ztj.xyz/JavaScript-Bridge.html");
         // 设置桥接对象
         web_view.addJavascriptInterface(this, "bridge");
 

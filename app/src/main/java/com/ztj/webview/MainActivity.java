@@ -57,4 +57,9 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         return true;
     }
+
+    @JavascriptInterface
+    public String init() {
+        return "Android";
+    }
 }

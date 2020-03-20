@@ -3,12 +3,18 @@ package com.ztj.webview;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.Window;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +55,28 @@ public class MainActivity extends AppCompatActivity {
         web_settings.setLoadWithOverviewMode(true);
         // 支持 ViewPort
         web_settings.setUseWideViewPort(true);
+
+        web_view.setWebViewClient(new WebViewClient() {
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                String prefix = "http://image/";
+                WebResourceResponse response = null;
+                if (url.contains(prefix)) {
+                    try {
+                        String file = url.replace(prefix, "");
+                        String path = Uri.parse(file).getPath();
+                        InputStream local = null;
+                        if (path != null) {
+                            local = new FileInputStream(path);
+                            response = new WebResourceResponse("image/*", "UTF-8", local);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return response;
+            }
+        });
     }
 
     @JavascriptInterface
